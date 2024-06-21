@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Background"
+    tools:context=".EsqueciSenha">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TV_EsqueciSenha"
+        android:fontFamily="@font/arbutus_slab"
+        android:textSize="46sp"
+        android:layout_marginTop="80dp"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/Fonts"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/TV_InsiraEmail"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/Fonts"
+        android:fontFamily="@font/arbutus_slab"
+        android:layout_marginTop="150dp"
+        android:textSize="24sp"
+        android:layout_marginBottom="20dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
+            android:hint="@string/ET_Email"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_RecuperarSenha"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/ColorSecundary"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="@string/BT_RecuperarSenha"
+        android:textSize="20sp"
+        android:textColor="@color/Fonts"/>
+
+</LinearLayout>

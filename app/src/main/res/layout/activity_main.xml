@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Background"
+    tools:context=".MainActivity" >
+
+    <TextView
+        android:id="@+id/textView_Games"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="80sp"
+        android:fontFamily="@font/arbutus_slab"
+        android:rotationX="20"
+        android:shadowColor="#C8D5E6"
+        android:shadowRadius="35"
+        android:text="@string/app_name"
+        android:textColor="@color/Fonts"
+        android:textSize="60sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150sp"
+        android:layout_marginBottom="20sp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
+            android:hint="@string/ET_Email"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10sp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
+            android:hint="@string/ET_Password"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView_Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10sp"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="@string/ET_ForgetPassword"
+        android:textColor="@color/Fonts"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btn_SigIn"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="10sp"
+        android:backgroundTint="@color/ColorSecundary"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="@string/BT_Entrar"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView_SignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="@string/ET_SigUp"
+        android:textColor="@color/Fonts"
+        android:textSize="16sp" />
+
+</LinearLayout>

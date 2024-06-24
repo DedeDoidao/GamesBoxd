@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "240112613430",
+    "project_id": "games-boxd",
+    "storage_bucket": "games-boxd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240112613430:android:97af0748527532d70b0097",
+        "android_client_info": {
+          "package_name": "com.example.gamesboxd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "240112613430-8j99980hvt1rhpjhjciav6ukmi2vpamd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTLJSGcL8chvJ1nv8PlZKAIvI9j-wSvi8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240112613430-8j99980hvt1rhpjhjciav6ukmi2vpamd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

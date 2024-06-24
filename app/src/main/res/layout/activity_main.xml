@@ -26,7 +26,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150sp"
+        android:layout_marginTop="130sp"
         android:layout_marginBottom="20sp">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -54,17 +54,6 @@
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/textView_Password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10sp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/ET_ForgetPassword"
-        android:textColor="@color/Fonts"
-        android:textSize="16sp" />
-
     <Button
         android:id="@+id/btn_SigIn"
         android:layout_width="350dp"
@@ -77,6 +66,37 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="@string/ET_OU"
+        android:textColor="@color/Fonts"
+        android:textSize="16sp"
+        android:layout_marginBottom="10sp"/>
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_Google"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/arbutus_slab"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textView_Password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="10sp"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="@string/ET_ForgetPassword"
+        android:textColor="@color/Fonts"
+        android:textSize="18sp" />
+
+    <TextView
         android:id="@+id/textView_SignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,6 +104,6 @@
         android:fontFamily="@font/arbutus_slab"
         android:text="@string/ET_SigUp"
         android:textColor="@color/Fonts"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

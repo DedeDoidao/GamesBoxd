@@ -16,6 +16,7 @@
     <string name="ET_Password2">Confirme sua senha</string>
     <string name="ET_ForgetPassword">Esqueci a senha</string>
     <string name="ET_SigUp">Cadastrar</string>
+    <string name="ET_OU">Ou</string>
 
     <!-- Button -->
     <string name="BT_Entrar">Entrar</string>

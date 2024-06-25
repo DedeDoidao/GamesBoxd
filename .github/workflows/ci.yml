@@ -6,9 +6,8 @@ on:
       - master
 
 jobs: 
-  build: 
     runs-on: ubuntu-latest
-    
+    steps:
     - name: API Key
       env:
         API_KEY: ${{ secrets.API_KEY }}

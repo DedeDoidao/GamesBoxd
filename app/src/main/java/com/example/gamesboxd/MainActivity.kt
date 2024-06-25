@@ -27,6 +27,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
 
 class MainActivity : AppCompatActivity() {
     private lateinit var InputName: EditText
@@ -95,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CadastrarConta::class.java)
             startActivity(intent)
         }
+
     }
 
     public override fun onStart() {
@@ -140,8 +145,5 @@ class MainActivity : AppCompatActivity() {
                 showSnack("Credencias não encontradas!", Color.RED)
             }
         }
-
     }
-
-
 }

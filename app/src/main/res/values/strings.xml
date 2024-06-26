@@ -6,12 +6,14 @@
     <string name="TV_Boxd">Boxd</string>
     <string name="TV_EsqueciSenha">Recuperar Senha</string>
     <string name="TV_InsiraEmail">Insira seu email abaixo</string>
+    <string name="TV_InsiraNome">Insira seu nome</string>
     <string name="TV_Cadastrar">Cadastrar</string>
     <string name="TV_Senha">Insira sua senha</string>
     <string name="TV_ConfirmarSenha">Confirme sua senha</string>
 
     <!-- EditText -->
     <string name="ET_Email">Email</string>
+    <string name="ET_Nome">Nome</string>
     <string name="ET_Password">Senha</string>
     <string name="ET_Password2">Confirme sua senha</string>
     <string name="ET_ForgetPassword">Esqueci a senha</string>

@@ -13,16 +13,40 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="30dp"
         android:fontFamily="@font/arbutus_slab"
         android:text="@string/TV_Cadastrar"
         android:textColor="@color/Fonts"
         android:textSize="48sp" />
 
     <TextView
+        android:id="@+id/textViewNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:fontFamily="@font/arbutus_slab"
+        android:text="@string/TV_InsiraNome"
+        android:textColor="@color/Fonts"
+        android:textSize="24sp"
+        android:layout_marginTop="50dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
+            android:hint="@string/ET_Nome"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:fontFamily="@font/arbutus_slab"
         android:text="@string/TV_InsiraEmail"
@@ -35,9 +59,11 @@
         android:layout_marginBottom="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
             android:hint="@string/ET_Email"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -61,6 +87,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
             android:hint="@string/ET_Password"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -84,11 +111,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
             android:hint="@string/ET_Password2"
             android:textSize="20sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
+        android:id="@+id/btn_Cadastrar"
         android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

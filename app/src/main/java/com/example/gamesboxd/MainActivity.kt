@@ -2,6 +2,7 @@ package com.example.gamesboxd
 
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -27,6 +28,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
@@ -146,6 +148,7 @@ class MainActivity : AppCompatActivity() {
                     val userId = user.uid
                     val email = user.email
                     val displayName = user.displayName
+                    val userImg = user.photoUrl.toString()
 
                     val userDocRef = firestore.collection("Users").document(userId)
                     userDocRef.get().addOnSuccessListener { document ->
@@ -154,7 +157,8 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             val newuser = hashMapOf(
                                 "email" to email,
-                                "nome" to displayName
+                                "nome" to displayName,
+                                "picture" to userImg
                             )
                             userDocRef.set(newuser).addOnCompleteListener { cadastrargoogle ->
                                 if(cadastrargoogle.isSuccessful){
@@ -173,5 +177,41 @@ class MainActivity : AppCompatActivity() {
                 showSnack("Credencias não encontradas!", Color.RED)
             }
         }
+    }
+
+
+    private fun SalvarImgConta (imagemUri: Uri, userId: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit){
+        val imagemRef = FirebaseStorage.getInstance().reference.child("profileImages/$userId.jpg")
+        val upload = imagemRef.putFile(imagemUri)
+
+        upload.continueWithTask { task ->
+            if(!task.isSuccessful){
+                task.exception?.let { throw it }
+            }
+            imagemRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if(task.isSuccessful){
+                val DownloadUri = task.result
+                onSuccess(DownloadUri.toString())
+            } else {
+                onFailure(task.exception ?: Exception("Erro desconhecido"))
+            }
+        }
+    }
+
+    private fun CarregarImagem(imagemUri: Uri){
+        val userId = auth.currentUser?.uid ?: return
+        SalvarImgConta(imagemUri, userId, { imagemUrl ->
+            firestore.collection("Users").document(userId).update("picture", imagemUrl)
+                .addOnCompleteListener { task ->
+                    if(task.isSuccessful){
+                        showSnack("Imagem atualizada com sucesso!", Color.GREEN)
+                    } else {
+                        showSnack("Erro ao atualizar a imagem!", Color.RED)
+                    }
+                }
+        }, { exception ->
+            showSnack("Erro ao fazer upload da imagem: ${exception.localizedMessage}", Color.RED)
+        })
     }
 }

@@ -60,7 +60,8 @@ class CadastrarConta : AppCompatActivity() {
                             if(userId != null){
                                 val user = hashMapOf(
                                     "email" to email,
-                                    "nome" to nome
+                                    "nome" to nome,
+                                    "picture" to null
                                 )
                                 firestore.collection("Users")
                                     .document(userId).set(user).addOnCompleteListener { task ->

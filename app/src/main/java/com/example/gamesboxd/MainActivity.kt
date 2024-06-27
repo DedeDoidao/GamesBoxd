@@ -140,7 +140,35 @@ class MainActivity : AppCompatActivity() {
             task: Task<AuthResult> ->
 
             if(task.isSuccessful){
-                showSnack("Login Realizado com Google!", Color.GREEN)
+                val user = auth.currentUser
+
+                if(user != null){
+                    val userId = user.uid
+                    val email = user.email
+                    val displayName = user.displayName
+
+                    val userDocRef = firestore.collection("Users").document(userId)
+                    userDocRef.get().addOnSuccessListener { document ->
+                        if(document.exists()){
+                            showSnack("Login Realizado com Google!", Color.GREEN)
+                        } else {
+                            val newuser = hashMapOf(
+                                "email" to email,
+                                "nome" to displayName
+                            )
+                            userDocRef.set(newuser).addOnCompleteListener { cadastrargoogle ->
+                                if(cadastrargoogle.isSuccessful){
+                                    showSnack("Cadastro realizado com Google!", Color.GREEN)
+                                } else {
+                                    showSnack("Erro ao registrar usuário no banco de dados!", Color.RED)
+                                }
+                            }
+                        }
+
+                    }.addOnFailureListener {
+                        showSnack("Erro ao verificar usuário no banco de dados!", Color.RED)
+                    }
+                }
             } else {
                 showSnack("Credencias não encontradas!", Color.RED)
             }

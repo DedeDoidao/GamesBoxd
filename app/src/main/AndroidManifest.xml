@@ -13,6 +13,11 @@
         android:theme="@style/Theme.GamesBoxd"
         tools:targetApi="31">
         <activity
+            android:name=".Menu"
+            android:exported="false"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/Theme.GamesBoxd.NoActionBar" />
+        <activity
             android:name=".CadastrarConta"
             android:exported="false" />
         <activity
@@ -30,10 +35,10 @@
 
         <meta-data
             android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts"/>
+            android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>

@@ -5,4 +5,6 @@
     <color name="Background">#292D3A</color>
     <color name="Fonts">#FFFFFF</color>
     <color name ="ColorSecundary">#3DAA10</color>
+    <color name ="AppBar">#414B6A</color>
+    <color name ="ColorVariant">#6578B5</color>
 </resources>

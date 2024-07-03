@@ -1,9 +1,12 @@
 package com.example.gamesboxd
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -13,6 +16,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -20,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Firebase
@@ -84,7 +89,10 @@ class MainActivity : AppCompatActivity() {
                 auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(this){ task ->
 
                     if(task.isSuccessful){
-                        showSnack("Login realizado!", Color.GREEN)
+                        showSnack("Login realizado!", ContextCompat.getColor(this, R.color.ColorSecundary))
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            ShowMenu()
+                        }, 2500)
                     } else {
                         showSnack("Credencias não encontradas!", Color.RED)
                     }
@@ -113,6 +121,11 @@ class MainActivity : AppCompatActivity() {
         val snackbar = Snackbar.make(view, message, Snackbar.LENGTH_SHORT)
         snackbar.setBackgroundTint(color)
         snackbar.show()
+    }
+
+    private fun ShowMenu(){
+        val intent = Intent(this, Menu::class.java)
+        startActivity(intent)
     }
 
     private fun signInGoogle(){
@@ -153,7 +166,10 @@ class MainActivity : AppCompatActivity() {
                     val userDocRef = firestore.collection("Users").document(userId)
                     userDocRef.get().addOnSuccessListener { document ->
                         if(document.exists()){
-                            showSnack("Login Realizado com Google!", Color.GREEN)
+                            showSnack("Login Realizado com Google!", ContextCompat.getColor(this, R.color.ColorSecundary))
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                ShowMenu()
+                            }, 2500)
                         } else {
                             val newuser = hashMapOf(
                                 "email" to email,
@@ -162,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                             )
                             userDocRef.set(newuser).addOnCompleteListener { cadastrargoogle ->
                                 if(cadastrargoogle.isSuccessful){
-                                    showSnack("Cadastro realizado com Google!", Color.GREEN)
+                                    showSnack("Cadastro realizado com Google!", ContextCompat.getColor(this, R.color.ColorSecundary))
                                 } else {
                                     showSnack("Erro ao registrar usuário no banco de dados!", Color.RED)
                                 }
@@ -205,7 +221,7 @@ class MainActivity : AppCompatActivity() {
             firestore.collection("Users").document(userId).update("picture", imagemUrl)
                 .addOnCompleteListener { task ->
                     if(task.isSuccessful){
-                        showSnack("Imagem atualizada com sucesso!", Color.GREEN)
+                        showSnack("Imagem atualizada com sucesso!", ContextCompat.getColor(this, R.color.ColorSecundary))
                     } else {
                         showSnack("Erro ao atualizar a imagem!", Color.RED)
                     }

@@ -23,6 +23,7 @@ class CadastrarConta : AppCompatActivity() {
     private lateinit var InputEmail: EditText
     private lateinit var InputSenha: EditText
     private lateinit var InputConfSenha: EditText
+    private lateinit var InputUser: EditText
     private lateinit var Cadastrar: Button
 
     private val auth = FirebaseAuth.getInstance()
@@ -35,6 +36,7 @@ class CadastrarConta : AppCompatActivity() {
 
         InputNome = findViewById(R.id.inputNome)
         InputEmail = findViewById(R.id.inputEmail)
+        InputUser = findViewById(R.id.inputUser)
         InputSenha = findViewById(R.id.inputSenha)
         InputConfSenha = findViewById(R.id.inputConfirmarSenha)
         Cadastrar = findViewById(R.id.btn_Cadastrar)
@@ -48,43 +50,58 @@ class CadastrarConta : AppCompatActivity() {
         Cadastrar.setOnClickListener{
             val nome = InputNome.text.toString()
             val email = InputEmail.text.toString()
+            val user = InputUser.text.toString()
             val senha = InputSenha.text.toString()
             val confSenha = InputConfSenha.text.toString()
 
-            if(ConfereCampos(nome, email, senha, confSenha)){
+            if(ConfereCampos(nome, email, user, senha, confSenha)){
 
                 if(ConfereSenha(senha, confSenha)){
-                    auth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener { cadastro ->
-                        if(cadastro.isSuccessful){
-                            val userId = auth.currentUser?.uid
-                            if(userId != null){
-                                val user = hashMapOf(
-                                    "email" to email,
-                                    "nome" to nome,
-                                    "picture" to null
-                                )
-                                firestore.collection("Users")
-                                    .document(userId).set(user).addOnCompleteListener { task ->
-                                    if(task.isSuccessful){
-                                        showSnack("Cadastro realizado com sucesso", Color.GREEN)
-                                    } else {
-                                        val errorMessage = task.exception?.message ?: "Erro desconhecido"
-                                        Log.e("FirestoreError", errorMessage)
-                                        showSnack("Erro ao registrar usuário no banco de dados!", Color.RED)
-                                    }
-                                }
-                            }
-                        }
-                    }.addOnFailureListener { exeception ->
+                    firestore.collection("Users").whereEqualTo("id", user)
+                        .get().addOnCompleteListener { task ->
 
-                        val mensagemErro = when (exeception){
-                            is FirebaseAuthWeakPasswordException -> "Digite uma senha de no minimo 6 caracteres!"
-                            is FirebaseAuthInvalidCredentialsException -> "Digite um email válido!"
-                            is FirebaseAuthUserCollisionException -> "Email já cadastrado!"
-                            is FirebaseNetworkException -> "Sem conexão com a internet!"
-                            else -> "Erro ao cadastrar!"
+                            if(task.isSuccessful){
+
+                                if(task.result?.documents?.isEmpty() == true){
+
+                                    auth.createUserWithEmailAndPassword(email, senha).addOnCompleteListener { cadastro ->
+                                        if(cadastro.isSuccessful){
+                                            val userId = auth.currentUser?.uid
+                                            if(userId != null){
+                                                val user = hashMapOf(
+                                                    "nome" to nome,
+                                                    "email" to email,
+                                                    "id" to user,
+                                                    "picture" to null
+                                                )
+                                                firestore.collection("Users")
+                                                    .document(userId).set(user).addOnCompleteListener { task ->
+                                                        if(task.isSuccessful){
+                                                            showSnack("Cadastro realizado com sucesso", Color.GREEN)
+                                                        } else {
+                                                            val errorMessage = task.exception?.message ?: "Erro desconhecido"
+                                                            Log.e("FirestoreError", errorMessage)
+                                                            showSnack("Erro ao registrar usuário no banco de dados!", Color.RED)
+                                                        }
+                                                    }
+                                            }
+                                        }
+                                    }.addOnFailureListener { exeception ->
+
+                                        val mensagemErro = when (exeception){
+                                            is FirebaseAuthWeakPasswordException -> "Digite uma senha de no minimo 6 caracteres!"
+                                            is FirebaseAuthInvalidCredentialsException -> "Digite um email válido!"
+                                            is FirebaseAuthUserCollisionException -> "Email já cadastrado!"
+                                            is FirebaseNetworkException -> "Sem conexão com a internet!"
+                                            else -> "Erro ao cadastrar!"
+                                        }
+                                        showSnack(mensagemErro, Color.RED)
+
+                                }
+                            } else {
+                                    showSnack("Id já cadastrado!", Color.RED)
+                                }
                         }
-                        showSnack(mensagemErro, Color.RED)
                     }
                 } else {
                     showSnack("As senhas estão diferentes", Color.GRAY)
@@ -101,7 +118,7 @@ class CadastrarConta : AppCompatActivity() {
         snackbar.setBackgroundTint(color)
         snackbar.show()
     }
-    private fun ConfereCampos(nome: String, email: String, senha: String, confSenha: String): Boolean{
+    private fun ConfereCampos(nome: String, email: String, user: String, senha: String, confSenha: String): Boolean{
         if(nome.isEmpty() || email.isEmpty() || senha.isEmpty() || confSenha.isEmpty()){
             return false
         }

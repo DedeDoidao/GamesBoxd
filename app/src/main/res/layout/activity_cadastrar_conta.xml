@@ -19,111 +19,151 @@
         android:textColor="@color/Fonts"
         android:textSize="48sp" />
 
-    <TextView
-        android:id="@+id/textViewNome"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/TV_InsiraNome"
-        android:textColor="@color/Fonts"
-        android:textSize="24sp"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="60dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputNome"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded"
-            android:fontFamily="@font/arbutus_slab"
-            android:hint="@string/ET_Nome"
-            android:textSize="20sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical" >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/TV_InsiraEmail"
-        android:textColor="@color/Fonts"
-        android:textSize="24sp" />
+            <TextView
+                android:id="@+id/textViewNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="@string/TV_InsiraNome"
+                android:textColor="@color/Fonts"
+                android:textSize="24sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"/>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded"
-            android:fontFamily="@font/arbutus_slab"
-            android:hint="@string/ET_Email"
-            android:textSize="20sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputNome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded"
+                    android:fontFamily="@font/arbutus_slab"
+                    android:hint="@string/ET_Nome"
+                    android:textSize="20sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/TV_Senha"
-        android:textColor="@color/Fonts"
-        android:textSize="24sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="@string/TV_InsiraEmail"
+                android:textColor="@color/Fonts"
+                android:textSize="24sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded"
-            android:fontFamily="@font/arbutus_slab"
-            android:hint="@string/ET_Password"
-            android:textSize="20sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded"
+                    android:fontFamily="@font/arbutus_slab"
+                    android:hint="@string/ET_Email"
+                    android:textSize="20sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/TV_ConfirmarSenha"
-        android:textColor="@color/Fonts"
-        android:textSize="24sp" />
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="@string/TV_SuaId"
+                android:textColor="@color/Fonts"
+                android:textSize="24sp" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp">
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/inputConfirmarSenha"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded"
-            android:fontFamily="@font/arbutus_slab"
-            android:hint="@string/ET_Password2"
-            android:textSize="20sp" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded"
+                    android:fontFamily="@font/arbutus_slab"
+                    android:hint="@string/ET_User"
+                    android:textSize="20sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btn_Cadastrar"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/ColorSecundary"
-        android:fontFamily="@font/arbutus_slab"
-        android:text="@string/BT_Cadastrar"
-        android:textColor="@color/Fonts"
-        android:textSize="20sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="@string/TV_Senha"
+                android:textColor="@color/Fonts"
+                android:textSize="24sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputSenha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded"
+                    android:fontFamily="@font/arbutus_slab"
+                    android:hint="@string/ET_Password"
+                    android:textSize="20sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="@string/TV_ConfirmarSenha"
+                android:textColor="@color/Fonts"
+                android:textSize="24sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/inputConfirmarSenha"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded"
+                    android:fontFamily="@font/arbutus_slab"
+                    android:hint="@string/ET_Password2"
+                    android:textSize="20sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btn_Cadastrar"
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/ColorSecundary"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="@string/BT_Cadastrar"
+                android:textColor="@color/Fonts"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </LinearLayout>

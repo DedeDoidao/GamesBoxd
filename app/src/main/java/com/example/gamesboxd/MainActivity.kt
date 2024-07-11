@@ -38,6 +38,7 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
     private lateinit var InputName: EditText
@@ -92,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                         showSnack("Login realizado!", ContextCompat.getColor(this, R.color.ColorSecundary))
                         Handler(Looper.getMainLooper()).postDelayed({
                             ShowMenu()
-                        }, 2500)
+                        }, 2000)
                     } else {
                         showSnack("Credencias não encontradas!", Color.RED)
                     }
@@ -172,13 +173,18 @@ class MainActivity : AppCompatActivity() {
                             }, 2500)
                         } else {
                             val newuser = hashMapOf(
-                                "email" to email,
                                 "nome" to displayName,
+                                "email" to email,
+                                "id" to UUID.randomUUID().toString(),
                                 "picture" to userImg
                             )
                             userDocRef.set(newuser).addOnCompleteListener { cadastrargoogle ->
                                 if(cadastrargoogle.isSuccessful){
                                     showSnack("Cadastro realizado com Google!", ContextCompat.getColor(this, R.color.ColorSecundary))
+                                    Handler(Looper.getMainLooper()).postDelayed({
+                                        ShowMenu()
+                                    }, 2000)
+
                                 } else {
                                     showSnack("Erro ao registrar usuário no banco de dados!", Color.RED)
                                 }

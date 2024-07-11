@@ -3,14 +3,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/Background"
     android:orientation="vertical"
-    android:layout_gravity="center"
     tools:context=".ui.conta.Conta">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/TV_ConfigurarConta"
+        android:fontFamily="@font/arbutus_slab"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/Fonts"
+        android:textSize="48sp" />
+
+    <TextView
+        android:id="@+id/textView_SeuNome"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:text="@string/TV_SeuNome"
+        android:textColor="@color/Fonts"
+        android:textSize="24sp"
+        android:layout_marginTop="50dp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp"
+        android:layout_marginBottom="20sp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputNome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
+            android:textSize="20sp"
+            android:text="@string/ET_Nome"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/TV_SeuEmail"
+        android:textColor="@color/Fonts"
+        android:textSize="24sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20sp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded"
+            android:fontFamily="@font/arbutus_slab"
+            android:hint="@string/ET_Email"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </LinearLayout>

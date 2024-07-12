@@ -5,8 +5,9 @@
     <string name="TV_Games">Games</string>
     <string name="TV_Boxd">Boxd</string>
     <string name="TV_EsqueciSenha">Recuperar Senha</string>
-    <string name="TV_InsiraEmail">Insira seu email abaixo</string>
+    <string name="TV_InsiraFoto">Insira uma foto para seu perfil</string>
     <string name="TV_InsiraNome">Insira seu nome</string>
+    <string name="TV_InsiraEmail">Insira seu email</string>
     <string name="TV_SeuNome">Seu nome</string>
     <string name="TV_SeuEmail">Seu email</string>
     <string name="TV_SuaId">Seu nome de usuário</string>

@@ -1,12 +1,18 @@
 package com.example.gamesboxd
 
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -19,6 +25,8 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CadastrarConta : AppCompatActivity() {
+    private lateinit var InputFoto: ImageView
+    private lateinit var SelecionarImg: ActivityResultLauncher<Intent>
     private lateinit var InputNome: EditText
     private lateinit var InputEmail: EditText
     private lateinit var InputSenha: EditText
@@ -34,6 +42,13 @@ class CadastrarConta : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_cadastrar_conta)
 
+        InputFoto = findViewById(R.id.imgView_Foto)
+        SelecionarImg = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK && result.data != null) {
+                val imgUri: Uri? = result.data?.data
+                InputFoto.setImageURI(imgUri)
+            }
+        }
         InputNome = findViewById(R.id.inputNome)
         InputEmail = findViewById(R.id.inputEmail)
         InputUser = findViewById(R.id.inputUser)
@@ -45,6 +60,11 @@ class CadastrarConta : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        InputFoto.setOnClickListener {
+            ObterImg_Galeria()
+
         }
 
         Cadastrar.setOnClickListener{
@@ -110,6 +130,11 @@ class CadastrarConta : AppCompatActivity() {
                 showSnack("Preencha todos os campos!", Color.GRAY)
             }
         }
+    }
+
+    private fun ObterImg_Galeria(){
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        SelecionarImg.launch(intent)
     }
 
     private fun showSnack(message: String, color: Int) {

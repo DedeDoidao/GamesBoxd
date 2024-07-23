@@ -14,6 +14,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
@@ -23,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class CadastrarConta : AppCompatActivity() {
     private lateinit var InputFoto: ImageView
@@ -36,6 +39,9 @@ class CadastrarConta : AppCompatActivity() {
 
     private val auth = FirebaseAuth.getInstance()
     private val firestore = FirebaseFirestore.getInstance()
+    private lateinit var storageRef: StorageReference
+
+    private var imgUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +51,11 @@ class CadastrarConta : AppCompatActivity() {
         InputFoto = findViewById(R.id.imgView_Foto)
         SelecionarImg = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK && result.data != null) {
-                val imgUri: Uri? = result.data?.data
+                imgUri = result.data?.data
                 InputFoto.setImageURI(imgUri)
             }
         }
+        storageRef = FirebaseStorage.getInstance().reference
         InputNome = findViewById(R.id.inputNome)
         InputEmail = findViewById(R.id.inputEmail)
         InputUser = findViewById(R.id.inputUser)
@@ -64,7 +71,6 @@ class CadastrarConta : AppCompatActivity() {
 
         InputFoto.setOnClickListener {
             ObterImg_Galeria()
-
         }
 
         Cadastrar.setOnClickListener{
@@ -97,7 +103,12 @@ class CadastrarConta : AppCompatActivity() {
                                                 firestore.collection("Users")
                                                     .document(userId).set(user).addOnCompleteListener { task ->
                                                         if(task.isSuccessful){
-                                                            showSnack("Cadastro realizado com sucesso", Color.GREEN)
+
+
+                                                            if(imgUri != null){
+                                                                UploadImg(userId, imgUri!!)
+                                                                showSnack("Cadastro realizado com sucesso", ContextCompat.getColor(this, R.color.ColorSecundary))
+                                                            }
                                                         } else {
                                                             val errorMessage = task.exception?.message ?: "Erro desconhecido"
                                                             Log.e("FirestoreError", errorMessage)
@@ -135,6 +146,24 @@ class CadastrarConta : AppCompatActivity() {
     private fun ObterImg_Galeria(){
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         SelecionarImg.launch(intent)
+    }
+
+    private fun UploadImg(userId: String, imgUri: Uri){
+        val imgRef = storageRef.child("profileImages/$userId.jpg")
+
+        imgRef.putFile(imgUri).addOnSuccessListener {
+
+            imgRef.downloadUrl.addOnSuccessListener { uri ->
+                firestore.collection("Users").document(userId).update("picture", uri.toString())
+                    .addOnSuccessListener {
+                        showSnack("Imagem enviada com sucesso", ContextCompat.getColor(this, R.color.ColorSecundary))
+                    }.addOnFailureListener {
+                        showSnack("Erro ao atualizar a imagem!", Color.RED)
+                    }
+            } .addOnFailureListener {
+                showSnack("Erro ao subir a imagem!", Color.RED)
+            }
+        }
     }
 
     private fun showSnack(message: String, color: Int) {

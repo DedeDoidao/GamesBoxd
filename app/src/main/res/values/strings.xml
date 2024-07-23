@@ -30,6 +30,7 @@
     <string name="BT_Entrar">Entrar</string>
     <string name="BT_RecuperarSenha">Recuperar senha</string>
     <string name="BT_Cadastrar">Cadastrar conta</string>
+    <string name="BT_Editar">Editar conta</string>
     <string name="title_activity_menu">Menu</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 import com.example.gamesboxd.R
 import com.example.gamesboxd.databinding.FragmentContaBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -31,9 +33,16 @@ class Conta : Fragment() {
                 if(documento != null){
                     val nome = documento.getString("nome")
                     val email = documento.getString("email")
+                    val user = documento.getString("id")
+                    val img = documento.getString("picture")
 
                     binding.inputNome.setText(nome)
                     binding.inputEmail.setText(email)
+                    binding.inputUser.setText(user)
+
+                    if(img != null){
+                        Glide.with(this).load(img).into(binding.imageViewFoto)
+                    }
                 }
 
             }

@@ -119,12 +119,13 @@
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/ColorSecundary"
+                android:enabled="true"
                 android:fontFamily="@font/arbutus_slab"
                 android:text="@string/BT_Editar"
                 android:textColor="@color/Fonts"
-                android:textSize="20sp"
-                android:layout_marginBottom="20dp"/>
+                android:textSize="20sp" />
 
 
         </LinearLayout>

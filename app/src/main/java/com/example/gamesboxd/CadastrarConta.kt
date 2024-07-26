@@ -104,7 +104,6 @@ class CadastrarConta : AppCompatActivity() {
                                                     .document(userId).set(user).addOnCompleteListener { task ->
                                                         if(task.isSuccessful){
 
-
                                                             if(imgUri != null){
                                                                 UploadImg(userId, imgUri!!)
                                                                 showSnack("Cadastro realizado com sucesso", ContextCompat.getColor(this, R.color.ColorSecundary))

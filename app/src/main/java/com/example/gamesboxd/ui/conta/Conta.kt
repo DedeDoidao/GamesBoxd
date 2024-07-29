@@ -105,23 +105,34 @@ class Conta : Fragment() {
 
                     val imgRef = storageRef.child("profileImages/$userId.jpg")
 
-                    firestore.collection("Users").document(userId).update("email", email_Atual)
-                        .addOnSuccessListener {
-                            UsuarioAtual.let{
-                                val credential = EmailAuthProvider.getCredential(it?.email!!, "123456")
-                                it.reauthenticate(credential).addOnCompleteListener { reauthenticate ->
-                                   if(reauthenticate.isSuccessful){
-                                       it.verifyBeforeUpdateEmail(email_Atual).addOnCompleteListener{ task ->
-                                           if(task.isSuccessful){
-                                               showSnack("Email de verificação enviado para $email_Atual. Verifique seu email para concluir a atualização.", Color.GREEN)
-                                           } else {
-                                               showSnack("Erro ao enviar email de verificação: ${task.exception?.message}", Color.RED)
-                                           }
+                    firestore.collection("Users").whereEqualTo("email", email_Atual).get().addOnCompleteListener { VerificarDisponibilidade ->
+
+                        if(VerificarDisponibilidade.isSuccessful){
+
+                            if(VerificarDisponibilidade.result?.documents?.isEmpty() == true){
+
+                                UsuarioAtual.let{
+                                    val credential = EmailAuthProvider.getCredential(it?.email!!, "123456")
+                                    it.reauthenticate(credential).addOnCompleteListener { reauthenticate ->
+                                        if(reauthenticate.isSuccessful){
+                                            it.verifyBeforeUpdateEmail(email_Atual).addOnCompleteListener{ task ->
+                                                if(task.isSuccessful){
+                                                    showSnack("Email de verificação enviado para $email_Atual.", Color.GREEN)
+                                                    firestore.collection("Users").document(userId).update("email", email_Atual)
+                                                } else {
+                                                    showSnack("Erro ao enviar email de verificação: ${task.exception?.message}", Color.RED)
+                                                }
+                                            }
                                         }
-                                   }
+                                    }
                                 }
+                            } else {
+                                showSnack("Email já cadastrado!", Color.RED)
                             }
                         }
+
+                    }
+
                     firestore.collection("Users").document(userId).update("id", user_Atual)
                     firestore.collection("Users").document(userId).update("nome", nome_Atual)
 
@@ -144,11 +155,8 @@ class Conta : Fragment() {
     }
 
     private fun ConfereDados(name: String, e_mail: String, id: String, img: Uri): Boolean{
-     if(nome != name || email != e_mail || user != id || initialImgUri != img){
-         return true
-     } else {
-         return false
-     }
+     if(nome != name || email != e_mail || user != id || initialImgUri != img)
+         return true else return false
     }
 
     fun drawableToUri(drawable: BitmapDrawable, context: Context): Uri? {

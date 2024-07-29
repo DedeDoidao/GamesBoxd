@@ -115,7 +115,6 @@ class MainActivity : AppCompatActivity() {
 
     public override fun onStart() {
         super.onStart()
-        val currentUser = auth.currentUser
     }
     private fun showSnack(message: String, color: Int) {
         val view = findViewById<View>(android.R.id.content)
@@ -201,23 +200,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun SalvarImgConta (imagemUri: Uri, userId: String, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit){
-        val imagemRef = FirebaseStorage.getInstance().reference.child("profileImages/$userId.jpg")
-        val upload = imagemRef.putFile(imagemUri)
-
-        upload.continueWithTask { task ->
-            if(!task.isSuccessful){
-                task.exception?.let { throw it }
-            }
-            imagemRef.downloadUrl
-        }.addOnCompleteListener { task ->
-            if(task.isSuccessful){
-                val DownloadUri = task.result
-                onSuccess(DownloadUri.toString())
-            } else {
-                onFailure(task.exception ?: Exception("Erro desconhecido"))
-            }
-        }
-    }
 }

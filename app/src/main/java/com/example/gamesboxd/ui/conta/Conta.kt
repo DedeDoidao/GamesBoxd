@@ -21,6 +21,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
+import com.example.gamesboxd.AlterarSenha
 import com.example.gamesboxd.R
 import com.example.gamesboxd.databinding.FragmentContaBinding
 import com.google.android.material.snackbar.Snackbar
@@ -75,7 +76,8 @@ class Conta : Fragment() {
 
         alterarSenha = binding.textViewAlterarSenha
         alterarSenha.setOnClickListener{
-
+            val intent = Intent(requireContext(), AlterarSenha::class.java)
+            startActivity(intent)
         }
 
         if (userId != null) {

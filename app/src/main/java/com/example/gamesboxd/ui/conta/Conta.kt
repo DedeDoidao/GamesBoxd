@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -44,6 +45,8 @@ class Conta : Fragment() {
     private lateinit var picture: String
     private lateinit var btnEditar: Button
     private lateinit var imgView: ImageView
+    private lateinit var alterarSenha: TextView
+
 
     private var imgUri: Uri? = null
     private var initialImgUri: Uri? = null
@@ -68,6 +71,11 @@ class Conta : Fragment() {
         imgView = binding.imageViewFoto
         imgView.setOnClickListener{
             ObterImgGaleria()
+        }
+
+        alterarSenha = binding.textViewAlterarSenha
+        alterarSenha.setOnClickListener{
+
         }
 
         if (userId != null) {

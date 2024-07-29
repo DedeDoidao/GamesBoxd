@@ -220,20 +220,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun CarregarImagem(imagemUri: Uri){
-        val userId = auth.currentUser?.uid ?: return
-        SalvarImgConta(imagemUri, userId, { imagemUrl ->
-            firestore.collection("Users").document(userId).update("picture", imagemUrl)
-                .addOnCompleteListener { task ->
-                    if(task.isSuccessful){
-                        showSnack("Imagem atualizada com sucesso!", ContextCompat.getColor(this, R.color.ColorSecundary))
-                    } else {
-                        showSnack("Erro ao atualizar a imagem!", Color.RED)
-                    }
-                }
-        }, { exception ->
-            showSnack("Erro ao fazer upload da imagem: ${exception.localizedMessage}", Color.RED)
-        })
-    }
 }

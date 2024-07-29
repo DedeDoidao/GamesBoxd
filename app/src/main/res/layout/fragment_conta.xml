@@ -120,12 +120,26 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="40dp"
                 android:backgroundTint="@color/ColorSecundary"
                 android:enabled="true"
                 android:fontFamily="@font/arbutus_slab"
                 android:text="@string/BT_Editar"
                 android:textColor="@color/Fonts"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/textView_AlterarSenha"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="@font/arbutus_slab"
+                android:text="@string/TV_AlterarSenha"
+                android:textColor="@color/Fonts"
+                android:textSize="18sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20sp"/>
+
 
 
         </LinearLayout>

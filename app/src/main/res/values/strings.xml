@@ -13,6 +13,10 @@
     <string name="TV_SuaId">Seu nome de usuário</string>
     <string name="TV_Cadastrar">Cadastrar</string>
     <string name="TV_Senha">Insira sua senha</string>
+    <string name="TV_SenhaAtual">Insira sua senha atual</string>
+    <string name="TV_SenhaNova">Insira sua nova senha</string>
+    <string name="TV_ConfirmarSenhaNova">Confirme sua nova senha</string>
+    <string name="TV_AlterarSenha">Alterar Senha</string>
     <string name="TV_ConfirmarSenha">Confirme sua senha</string>
     <string name="TV_ConfigurarConta">Conta</string>
 
@@ -21,7 +25,9 @@
     <string name="ET_Nome">Nome</string>
     <string name="ET_User">User</string>
     <string name="ET_Password">Senha</string>
+    <string name="ET_PasswordNew">Senha nova</string>
     <string name="ET_Password2">Confirme sua senha</string>
+    <string name="ET_PasswordNew2">Confirme sua nova senha</string>
     <string name="ET_ForgetPassword">Esqueci a senha</string>
     <string name="ET_SigUp">Cadastrar</string>
     <string name="ET_OU">Ou</string>
@@ -29,6 +35,7 @@
     <!-- Button -->
     <string name="BT_Entrar">Entrar</string>
     <string name="BT_RecuperarSenha">Recuperar senha</string>
+    <string name="BT_AlterarSenha">Alterar senha</string>
     <string name="BT_Cadastrar">Cadastrar conta</string>
     <string name="BT_Editar">Editar conta</string>
     <string name="title_activity_menu">Menu</string>

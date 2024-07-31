@@ -59,7 +59,7 @@ class CadastrarConta : AppCompatActivity() {
         InputNome = findViewById(R.id.inputNome)
         InputEmail = findViewById(R.id.inputEmail)
         InputUser = findViewById(R.id.inputUser)
-        InputSenha = findViewById(R.id.inputSenha)
+        InputSenha = findViewById(R.id.input_Senha_Email)
         InputConfSenha = findViewById(R.id.inputConfirmarSenha)
         Cadastrar = findViewById(R.id.btn_Cadastrar)
 

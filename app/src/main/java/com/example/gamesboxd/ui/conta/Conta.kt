@@ -14,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.ActivityResultLauncher
@@ -25,6 +26,7 @@ import com.example.gamesboxd.AlterarSenha
 import com.example.gamesboxd.R
 import com.example.gamesboxd.databinding.FragmentContaBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -33,6 +35,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import java.io.File
 import java.io.FileOutputStream
+import java.util.UUID
 
 class Conta : Fragment() {
     private lateinit var binding: FragmentContaBinding
@@ -53,12 +56,16 @@ class Conta : Fragment() {
     private var initialImgUri: Uri? = null
     private lateinit var SelecionarImg: ActivityResultLauncher<Intent>
 
+    private lateinit var inputEmail: EditText
+    private lateinit var TextLayout: TextInputLayout
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
 
     ): View {
         binding = FragmentContaBinding.inflate(inflater,container, false)
+        val currentUser = auth.currentUser
         val userId = auth.currentUser?.uid
         storageRef = FirebaseStorage.getInstance().reference
 
@@ -79,8 +86,18 @@ class Conta : Fragment() {
             val intent = Intent(requireContext(), AlterarSenha::class.java)
             startActivity(intent)
         }
+        TextLayout = binding.TextInputLayoutEmail
+        TextLayout.setOnClickListener{
+            MostrarCampos_Senha( binding.textViewSenha,  binding.TextLayoutSenha,  binding.inputSenhaEmail)
+        }
+
+        inputEmail = binding.inputEmail
+        inputEmail.setOnClickListener{
+            MostrarCampos_Senha( binding.textViewSenha,  binding.TextLayoutSenha,  binding.inputSenhaEmail)
+        }
 
         if (userId != null) {
+
             firestore.collection("Users").document(userId).addSnapshotListener { documento, error ->
 
                 if(documento != null){
@@ -109,50 +126,50 @@ class Conta : Fragment() {
                 val foto_Atual = (binding.imageViewFoto.drawable as? BitmapDrawable)?.let { drawable ->
                     drawableToUri(drawable, requireContext())
                 }
+                val Senha_Atual = binding.inputSenhaEmail?.text.toString()
+                val updates = mutableListOf<Pair<String, Any>>()
+                var atualizou = false
 
-                if(foto_Atual != null && ConfereDados(nome_Atual, email_Atual,
-                        user_Atual, foto_Atual)){
 
-                    val imgRef = storageRef.child("profileImages/$userId.jpg")
+                val imgRef = storageRef.child("profileImages/$userId.jpg")
 
-                    firestore.collection("Users").whereEqualTo("email", email_Atual).get().addOnCompleteListener { VerificarDisponibilidade ->
+                if(email_Atual != email){
 
-                        if(VerificarDisponibilidade.isSuccessful){
-
-                            if(VerificarDisponibilidade.result?.documents?.isEmpty() == true){
-
-                                UsuarioAtual.let{
-                                    val credential = EmailAuthProvider.getCredential(it?.email!!, "123456")
-                                    it.reauthenticate(credential).addOnCompleteListener { reauthenticate ->
-                                        if(reauthenticate.isSuccessful){
-                                            it.verifyBeforeUpdateEmail(email_Atual).addOnCompleteListener{ task ->
-                                                if(task.isSuccessful){
-                                                    showSnack("Email de verificação enviado para $email_Atual.", Color.GREEN)
-                                                    firestore.collection("Users").document(userId).update("email", email_Atual)
-                                                } else {
-                                                    showSnack("Erro ao enviar email de verificação: ${task.exception?.message}", Color.RED)
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            } else {
-                                showSnack("Email já cadastrado!", Color.RED)
-                            }
-                        }
-
+                    AtualizacaoEmail(email_Atual, Senha_Atual, UsuarioAtual) { success ->
+                        if(success) updates.add("email" to email_Atual)
+                        atualizou = true
                     }
 
-                    firestore.collection("Users").document(userId).update("id", user_Atual)
-                    firestore.collection("Users").document(userId).update("nome", nome_Atual)
+                }
 
-                    imgRef.putFile(foto_Atual).addOnSuccessListener{
-                       imgRef.downloadUrl.addOnSuccessListener { uri ->
-                           firestore.collection("Users").document(userId).update("picture", uri.toString())
-                       }
 
+                if(user_Atual != user) {
+
+                    if(AtualizarId(user_Atual)){
+                        updates.add("id" to user_Atual)
+                        atualizou = true
+                    } else {
+                        showSnack("Id indisponível!", Color.RED)
                     }
                 }
+
+                if(nome_Atual != nome){
+                    updates.add("nome" to nome_Atual)
+                    atualizou = true
+                }
+
+                if(foto_Atual != null && foto_Atual != initialImgUri){
+                    imgRef.putFile(foto_Atual).addOnSuccessListener{
+                        imgRef.downloadUrl.addOnSuccessListener { uri ->
+                            updates.add("picture" to uri.toString())
+                            atualizou = true
+                            AplicarMundancas(userId, updates, atualizou)
+                        }
+                    }
+                } else {
+                    AplicarMundancas(userId, updates, atualizou)
+                }
+
             }
         }
 
@@ -164,10 +181,12 @@ class Conta : Fragment() {
         snackbar.show()
     }
 
-    private fun ConfereDados(name: String, e_mail: String, id: String, img: Uri): Boolean{
-     if(nome != name || email != e_mail || user != id || initialImgUri != img)
-         return true else return false
+    private fun MostrarCampos_Senha(tvs: TextView, tls: TextInputLayout, inputsenha: EditText){
+        tvs.visibility = View.VISIBLE
+        tls.visibility = View.VISIBLE
+        inputsenha.visibility = View.VISIBLE
     }
+
 
     fun drawableToUri(drawable: BitmapDrawable, context: Context): Uri? {
         val bitmap = drawable.bitmap
@@ -188,6 +207,59 @@ class Conta : Fragment() {
         SelecionarImg.launch(intent)
     }
 
+    fun AtualizacaoEmail(email: String, password: String, currentUser: FirebaseUser?, callback: (Boolean) -> Unit){
+        if(password.isEmpty()){
+            showSnack("Coloque sua senha antes para editar o email!", Color.RED)
+            callback(false)
+            return
+        }
+
+        currentUser.let{
+            val credencial = EmailAuthProvider.getCredential(it?.email!!, password)
+            it.reauthenticate(credencial).addOnCompleteListener { reautenticar ->
+                if(reautenticar.isSuccessful){
+                    it.verifyBeforeUpdateEmail(email).addOnCompleteListener { task ->
+                        if(task.isSuccessful){
+                            showSnack("Email de verificação enviado para $email.",  ContextCompat.getColor(requireActivity(), R.color.ColorSecundary))
+                            callback(true)
+                        } else {
+                            showSnack("Erro ao enviar email de verificação: ${task.exception?.message}", Color.RED)
+                            callback(false)
+                        }
+                    }
+                } else {
+                    showSnack("Erro ao reautenticar. Verifique sua senha e tente novamente!", Color.RED)
+                    callback(false)
+                }
+            }
+        }
+
+    }
+
+    fun AtualizarId(idNova: String): Boolean{
+        var idDisponível = false
+        firestore.collection("Users").whereEqualTo("id", idNova)
+            .get().addOnCompleteListener { task ->
+                if(task.result.isEmpty){
+                    idDisponível = true
+                }
+            }
+        return idDisponível
+
+    }
+
+    fun AplicarMundancas(userId: String, updates: List<Pair<String, Any>>, atualizou: Boolean){
+        if(atualizou){
+            firestore.collection("Users").document(userId).update(updates.toMap()).addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    showSnack("Conta atualizada!", ContextCompat.getColor(requireActivity(), R.color.ColorSecundary))
+                } else {
+                    showSnack("Erro ao atualizar conta: ${task.exception?.message}", Color.RED)
+                }
+            }
+        } else {
+            showSnack("Altere os dados desejados primeiro!", Color.GRAY)
+        }
+    }
+
 }
-
-

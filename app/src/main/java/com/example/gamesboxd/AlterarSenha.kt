@@ -30,7 +30,7 @@ class AlterarSenha : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_alterar_senha)
 
-        SenhaAtual = findViewById(R.id.inputSenha)
+        SenhaAtual = findViewById(R.id.input_Senha_Email)
         SenhaNova = findViewById(R.id.inputSenhaNova)
         ConfirmacaoSenhaNova = findViewById(R.id.inputSenhaConf)
         Alterarsenha = findViewById(R.id.btn_AlterarSenha)

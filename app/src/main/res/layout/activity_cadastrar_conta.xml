@@ -138,7 +138,7 @@
                 android:layout_marginBottom="20dp">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/inputSenha"
+                    android:id="@+id/input_Senha_Email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded"

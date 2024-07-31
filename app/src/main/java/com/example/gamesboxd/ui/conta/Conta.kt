@@ -145,12 +145,14 @@ class Conta : Fragment() {
 
                 if(user_Atual != user) {
 
-                    if(AtualizarId(user_Atual)){
-                        updates.add("id" to user_Atual)
-                        atualizou = true
-                    } else {
-                        showSnack("Id indisponível!", Color.RED)
-                    }
+                     AtualizarId(user_Atual) { idDisponível ->
+                         if(!idDisponível){
+                             showSnack("Id indisponível!", Color.RED)
+                         } else {
+                             updates.add("id" to user_Atual)
+                             atualizou = true
+                         }
+                     }
                 }
 
                 if(nome_Atual != nome){
@@ -161,9 +163,12 @@ class Conta : Fragment() {
                 if(foto_Atual != null && foto_Atual != initialImgUri){
                     imgRef.putFile(foto_Atual).addOnSuccessListener{
                         imgRef.downloadUrl.addOnSuccessListener { uri ->
-                            updates.add("picture" to uri.toString())
-                            atualizou = true
-                            AplicarMundancas(userId, updates, atualizou)
+                            if(uri.toString() != picture){
+                                updates.add("picture" to uri.toString())
+                                atualizou = true
+                                AplicarMundancas(userId, updates, atualizou)
+                            }
+
                         }
                     }
                 } else {
@@ -236,16 +241,16 @@ class Conta : Fragment() {
 
     }
 
-    fun AtualizarId(idNova: String): Boolean{
-        var idDisponível = false
+    fun AtualizarId(idNova: String, callback: (Boolean) -> Unit){
         firestore.collection("Users").whereEqualTo("id", idNova)
             .get().addOnCompleteListener { task ->
-                if(task.result.isEmpty){
-                    idDisponível = true
+                if(task.isSuccessful){
+                    var idDisponível = task.result.isEmpty
+                    callback(idDisponível)
+                } else {
+                    callback(false)
                 }
             }
-        return idDisponível
-
     }
 
     fun AplicarMundancas(userId: String, updates: List<Pair<String, Any>>, atualizou: Boolean){

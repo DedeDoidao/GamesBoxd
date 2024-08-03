@@ -8,6 +8,8 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -22,6 +24,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
+import com.example.gamesboxd.AlterarEmail
 import com.example.gamesboxd.AlterarSenha
 import com.example.gamesboxd.R
 import com.example.gamesboxd.databinding.FragmentContaBinding
@@ -57,7 +60,6 @@ class Conta : Fragment() {
     private lateinit var SelecionarImg: ActivityResultLauncher<Intent>
 
     private lateinit var inputEmail: EditText
-    private lateinit var TextLayout: TextInputLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,8 +67,8 @@ class Conta : Fragment() {
 
     ): View {
         binding = FragmentContaBinding.inflate(inflater,container, false)
-        val currentUser = auth.currentUser
         val userId = auth.currentUser?.uid
+
         storageRef = FirebaseStorage.getInstance().reference
 
         SelecionarImg = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -83,17 +85,14 @@ class Conta : Fragment() {
 
         alterarSenha = binding.textViewAlterarSenha
         alterarSenha.setOnClickListener{
-            val intent = Intent(requireContext(), AlterarSenha::class.java)
+            val intent = Intent(requireActivity(), AlterarSenha::class.java)
             startActivity(intent)
-        }
-        TextLayout = binding.TextInputLayoutEmail
-        TextLayout.setOnClickListener{
-            MostrarCampos_Senha( binding.textViewSenha,  binding.TextLayoutSenha,  binding.inputSenhaEmail)
         }
 
         inputEmail = binding.inputEmail
         inputEmail.setOnClickListener{
-            MostrarCampos_Senha( binding.textViewSenha,  binding.TextLayoutSenha,  binding.inputSenhaEmail)
+            val intent = Intent(requireActivity(), AlterarEmail::class.java)
+            startActivity(intent)
         }
 
         if (userId != null) {
@@ -116,64 +115,47 @@ class Conta : Fragment() {
                 }
             }
 
+
+
             btnEditar = binding.btnEditar
             btnEditar.setOnClickListener {
-                val UsuarioAtual = auth.currentUser
-
                 val nome_Atual = binding.inputNome.text.toString()
-                val email_Atual = binding.inputEmail.text.toString()
                 val user_Atual = binding.inputUser.text.toString()
                 val foto_Atual = (binding.imageViewFoto.drawable as? BitmapDrawable)?.let { drawable ->
                     drawableToUri(drawable, requireContext())
                 }
-                val Senha_Atual = binding.inputSenhaEmail?.text.toString()
                 val updates = mutableListOf<Pair<String, Any>>()
                 var atualizou = false
 
-
                 val imgRef = storageRef.child("profileImages/$userId.jpg")
 
-                if(email_Atual != email){
+                if (user_Atual != user) {
+                    AtualizarId(user_Atual) { idDisponivel ->
+                        if (!idDisponivel) {
+                                showSnack("Id indisponível!", Color.RED)
+                            } else {
+                                updates.add("id" to user_Atual)
+                                atualizou = true
+                            }
+                        }
+                    }
 
-                    AtualizacaoEmail(email_Atual, Senha_Atual, UsuarioAtual) { success ->
-                        if(success) updates.add("email" to email_Atual)
+                    if (nome_Atual != nome) {
+                        updates.add("nome" to nome_Atual)
                         atualizou = true
                     }
 
-                }
-
-
-                if(user_Atual != user) {
-
-                     AtualizarId(user_Atual) { idDisponível ->
-                         if(!idDisponível){
-                             showSnack("Id indisponível!", Color.RED)
-                         } else {
-                             updates.add("id" to user_Atual)
-                             atualizou = true
-                         }
-                     }
-                }
-
-                if(nome_Atual != nome){
-                    updates.add("nome" to nome_Atual)
-                    atualizou = true
-                }
-
-                if(foto_Atual != null && foto_Atual != initialImgUri){
-                    imgRef.putFile(foto_Atual).addOnSuccessListener{
-                        imgRef.downloadUrl.addOnSuccessListener { uri ->
-                            if(uri.toString() != picture){
+                    if (foto_Atual != null && foto_Atual != initialImgUri) {
+                        imgRef.putFile(foto_Atual).addOnSuccessListener {
+                            imgRef.downloadUrl.addOnSuccessListener { uri ->
                                 updates.add("picture" to uri.toString())
                                 atualizou = true
                                 AplicarMundancas(userId, updates, atualizou)
                             }
-
                         }
+                    } else {
+                        AplicarMundancas(userId, updates, atualizou)
                     }
-                } else {
-                    AplicarMundancas(userId, updates, atualizou)
-                }
 
             }
         }
@@ -185,13 +167,6 @@ class Conta : Fragment() {
         snackbar.setBackgroundTint(color)
         snackbar.show()
     }
-
-    private fun MostrarCampos_Senha(tvs: TextView, tls: TextInputLayout, inputsenha: EditText){
-        tvs.visibility = View.VISIBLE
-        tls.visibility = View.VISIBLE
-        inputsenha.visibility = View.VISIBLE
-    }
-
 
     fun drawableToUri(drawable: BitmapDrawable, context: Context): Uri? {
         val bitmap = drawable.bitmap
@@ -212,41 +187,12 @@ class Conta : Fragment() {
         SelecionarImg.launch(intent)
     }
 
-    fun AtualizacaoEmail(email: String, password: String, currentUser: FirebaseUser?, callback: (Boolean) -> Unit){
-        if(password.isEmpty()){
-            showSnack("Coloque sua senha antes para editar o email!", Color.RED)
-            callback(false)
-            return
-        }
-
-        currentUser.let{
-            val credencial = EmailAuthProvider.getCredential(it?.email!!, password)
-            it.reauthenticate(credencial).addOnCompleteListener { reautenticar ->
-                if(reautenticar.isSuccessful){
-                    it.verifyBeforeUpdateEmail(email).addOnCompleteListener { task ->
-                        if(task.isSuccessful){
-                            showSnack("Email de verificação enviado para $email.",  ContextCompat.getColor(requireActivity(), R.color.ColorSecundary))
-                            callback(true)
-                        } else {
-                            showSnack("Erro ao enviar email de verificação: ${task.exception?.message}", Color.RED)
-                            callback(false)
-                        }
-                    }
-                } else {
-                    showSnack("Erro ao reautenticar. Verifique sua senha e tente novamente!", Color.RED)
-                    callback(false)
-                }
-            }
-        }
-
-    }
-
     fun AtualizarId(idNova: String, callback: (Boolean) -> Unit){
         firestore.collection("Users").whereEqualTo("id", idNova)
             .get().addOnCompleteListener { task ->
                 if(task.isSuccessful){
-                    var idDisponível = task.result.isEmpty
-                    callback(idDisponível)
+                    var idDisponivel = task.result.isEmpty()
+                    callback(idDisponivel)
                 } else {
                     callback(false)
                 }

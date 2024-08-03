@@ -11,6 +11,7 @@
     <string name="TV_InsiraEmail">Insira seu email</string>
     <string name="TV_SeuNome">Seu nome</string>
     <string name="TV_SeuEmail">Seu email</string>
+    <string name="TV_AlterarEmail">Alterar Email</string>
     <string name="TV_SuaId">Seu nome de usuário</string>
     <string name="TV_Cadastrar">Cadastrar</string>
     <string name="TV_Senha">Insira sua senha</string>
@@ -37,6 +38,7 @@
     <string name="BT_Entrar">Entrar</string>
     <string name="BT_RecuperarSenha">Recuperar senha</string>
     <string name="BT_AlterarSenha">Alterar senha</string>
+    <string name="BT_AlterarEmail">Alterar email</string>
     <string name="BT_Cadastrar">Cadastrar conta</string>
     <string name="BT_Editar">Editar conta</string>
     <string name="title_activity_menu">Menu</string>

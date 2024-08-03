@@ -90,35 +90,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/textView_Senha"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:fontFamily="@font/arbutus_slab"
-                android:text="@string/TV_Senha"
-                android:textColor="@color/Fonts"
-                android:textSize="24sp"
-                android:visibility="gone" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/TextLayoutSenha"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="20dp"
-                android:visibility="gone">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/input_Senha_Email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded"
-                    android:fontFamily="@font/arbutus_slab"
-                    android:hint="@string/ET_Password"
-                    android:textSize="20sp"
-                    android:visibility="gone" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
                 android:id="@+id/textView_User"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
